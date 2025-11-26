@@ -7,8 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(RAYLIB REQUIRED raylib)
 
-add_executable(${PROJECT_NAME} main.cpp
-        tile.h)
+add_executable(${PROJECT_NAME} src/main.cpp
+        src/tile.h
+        src/World.h
+        src/Constants.h
+)
 
 target_compile_options(${PROJECT_NAME} PRIVATE
         -Wall
