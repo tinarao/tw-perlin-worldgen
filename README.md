@@ -1,7 +1,5 @@
 # procedure top down world generation
 
-attempt to create procedural world generation algorithm using perlin noise.
+Procedural world generator. Made with C++, using [FastNoiseLite.h](https://github.com/Auburn/FastNoiseLite) for noise generation and [raylib](https://www.raylib.com/) for rendering.
 
-idea - one big island with biomes, lakes and stuff
-
-tools - raylib, c++
+<img src="./pics/26-11.png" />

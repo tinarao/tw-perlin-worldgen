@@ -2,7 +2,6 @@
 #define TOPDOWN_WORLD_GENERATION_WORLD_H
 
 #include <memory>
-
 #include "Constants.h"
 #include "tile.h"
 #include "../lib/FastNoiseLite.h"
@@ -36,12 +35,31 @@ private:
 
 public:
     explicit World(const int seed) {
+        using namespace Constants;
         generate_islands_noise(seed);
 
-        for (size_t y = 0; y < Constants::SCREEN_H; y++) {
-            for (size_t x = 0; x < Constants::SCREEN_W; x++) {
-                auto tile = Tile::Create(Water);
-                tile.rect = { x, y, Constants::TILE_SIZE, Constants::TILE_SIZE };
+        for (size_t y = 0; y < SCREEN_H; y++) {
+            for (size_t x = 0; x < SCREEN_W; x++) {
+                const auto fl_x = static_cast<float>(x);
+                const auto fl_y = static_cast<float>(y);
+
+                const auto noise_amount = islands_noise.GetNoise(
+                    fl_x, fl_y
+                );
+
+                Tile tile;
+                tile.rect = {fl_x, fl_y, TILE_SIZE, TILE_SIZE};
+
+                if (noise_amount < 0) {
+                    Tile::ChangeKind(tile, Water);
+                } else if (noise_amount > 0.3) {
+                    Tile::ChangeKind(tile, Grass);
+                } else if (noise_amount > 0.2) {
+                    Tile::ChangeKind(tile, Dirt);
+                } else {
+                    Tile::ChangeKind(tile, Sand);
+                }
+
                 tiles[y][x] = tile;
             }
         }
